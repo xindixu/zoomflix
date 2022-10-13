@@ -3,7 +3,7 @@ import Head from "next/head"
 import "../styles/globals.css"
 import "antd/dist/antd.css"
 
-function MyApp({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>Zoomflex</Head>
@@ -12,4 +12,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   )
 }
 
-export default MyApp
+export default App
