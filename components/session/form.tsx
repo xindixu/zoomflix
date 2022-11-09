@@ -1,23 +1,31 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from "react"
-import PropTypes from "prop-types"
 import NextLink from "next/link"
 import { Form, Input, Button, Typography } from "antd"
 
 const { Text, Link } = Typography
 
-export const LOGIN = "LOGIN"
+export const SIGNIN = "SIGNIN"
 export const SIGNUP = "SIGNUP"
-export const CONFIRM = "CONFIRM"
 
 const BUTTON_TEXT = {
-  LOGIN: "Login",
+  SIGNIN: "Sign in",
   SIGNUP: "Sign up",
-  CONFIRM: "Confirm sign up",
 }
 
-function SessionForm({ type, onSubmit, initialValues }) {
+type TProps = {
+  type: typeof SIGNIN | typeof SIGNUP
+  onSubmit: () => {}
+  initialValues: {
+    username: string
+    password: string
+    email: string
+  }
+}
+
+function SessionForm({ type, onSubmit, initialValues }: TProps) {
   const [form] = Form.useForm()
+
   const onFinish = (values) => {
     onSubmit(values)
   }
@@ -38,35 +46,29 @@ function SessionForm({ type, onSubmit, initialValues }) {
       onFinishFailed={onFinishFailed}
       form={form}
     >
-      <Form.Item
-        label="Email"
-        name="email"
-        rules={[{ required: true }, { type: "email" }]}
-      >
+      <Form.Item label="Username" name="username" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
-
-      {type === CONFIRM ? (
-        <Form.Item label="Code" name="code" rules={[{ required: true }]}>
-          <Input />
-        </Form.Item>
-      ) : (
+      {type === SIGNUP && (
         <Form.Item
-          label="Password"
-          name="password"
-          rules={[{ required: true }]}
+          label="Email"
+          name="email"
+          rules={[{ required: true }, { type: "email" }]}
         >
-          <Input.Password />
+          <Input />
         </Form.Item>
       )}
 
+      <Form.Item label="Password" name="password" rules={[{ required: true }]}>
+        <Input.Password />
+      </Form.Item>
       <Form.Item
         wrapperCol={{
           offset: 4,
           span: 16,
         }}
       >
-        {type === LOGIN ? (
+        {type === SIGNIN ? (
           <Text type="secondary">
             New to Zoomflex? Please{" "}
             <NextLink href="/signup" passHref>
@@ -74,25 +76,16 @@ function SessionForm({ type, onSubmit, initialValues }) {
             </NextLink>
             .
           </Text>
-        ) : type === SIGNUP ? (
+        ) : (
           <Text type="secondary">
             Already a Zoomflex user? Please{" "}
             <NextLink href="/login" passHref>
-              <Link>{BUTTON_TEXT[LOGIN]}</Link>
-            </NextLink>
-            .
-          </Text>
-        ) : (
-          <Text type="secondary">
-            Already verified? Please{" "}
-            <NextLink href="/login" passHref>
-              <Link>{BUTTON_TEXT[LOGIN]}</Link>
+              <Link>{BUTTON_TEXT[SIGNIN]}</Link>
             </NextLink>
             .
           </Text>
         )}
       </Form.Item>
-
       <Form.Item
         wrapperCol={{
           offset: 4,
@@ -105,16 +98,6 @@ function SessionForm({ type, onSubmit, initialValues }) {
       </Form.Item>
     </Form>
   )
-}
-
-SessionForm.propTypes = {
-  type: PropTypes.oneOf([LOGIN, SIGNUP, CONFIRM]).isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  initialValues: PropTypes.object,
-}
-
-SessionForm.defaultProps = {
-  initialValues: {},
 }
 
 export default SessionForm

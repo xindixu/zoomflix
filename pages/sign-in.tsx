@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from "react"
 import { useRouter } from "next/router"
 import Session from "../components/session"
-import { LOGIN } from "../components/session/form"
+import { SIGNIN } from "../components/session/form"
 import AuthContext from "../context/auth"
 import { getCurrentUser } from "../lib/auth"
 
-function LogIn() {
+function SignIn() {
   const router = useRouter()
   const { setCurrentUser, isLoggedIn, userLoaded } = useContext(AuthContext)
 
@@ -39,7 +39,7 @@ function LogIn() {
     )
   }
 
-  return <Session type={LOGIN} onSuccess={onSuccess} />
+  return <Session type={SIGNIN} onSuccess={onSuccess} />
 }
 
-export default LogIn
+export default SignIn

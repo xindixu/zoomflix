@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { signOut, getCurrentUser } from "../lib/auth"
 import AuthContext from "../context/auth"
 
-function Logout() {
+function SignOut() {
   const router = useRouter()
   const { setCurrentUser, isLoggedIn } = useContext(AuthContext)
 
@@ -37,7 +37,7 @@ function Logout() {
     })
   }, [router, setCurrentUser])
 
-  return <div>Logout</div>
+  return <div>SignOut</div>
 }
 
-export default Logout
+export default SignOut

@@ -1,15 +1,27 @@
 // import { Auth } from "aws-amplify"
+import { apiFetch } from "./api-fetch"
 
-export function signUp({ email, password }) {
-  return () => {}
+export function signUp({ email, username, password }) {
+  return apiFetch({
+    method: "post",
+    data: {
+      email,
+      username,
+      password,
+    },
+    url: "/user/sign-up",
+  })
 }
 
-export function confirmSignUp({ email, code }) {
-  return () => {}
-}
-
-export function signIn({ email, password }) {
-  return () => {}
+export function signIn({ username, password }) {
+  return apiFetch({
+    method: "post",
+    data: {
+      username,
+      password,
+    },
+    url: "/user/sign-in",
+  })
 }
 
 export async function signOut() {

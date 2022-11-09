@@ -1,36 +1,30 @@
 import React, { useEffect, useState } from "react"
 import PropTypes from "prop-types"
 import { notification, Spin, Typography, Col, Row } from "antd"
-import { confirmSignUp, signUp, signIn } from "../../lib/auth"
-import NewSession, { CONFIRM, SIGNUP, LOGIN } from "./form"
+import { signUp, signIn } from "../../lib/auth"
+import NewSession, { SIGNUP, SIGNIN } from "./form"
 
 const { Title, Text } = Typography
 
 const NOTIFICATIONS = {
-  CONFIRM: "Confirm Sign Up Failed",
   SIGNUP: "Sign Up Failed",
-  LOGIN: "Log In Failed",
+  SIGNIN: "Sign In Failed",
 }
 
 const PROMPTS = {
-  CONFIRM: {
-    title: "Confirm Sign up",
-    text: "Please check your mailbox for the verification code",
-  },
   SIGNUP: {
     title: "Sign up",
     text: "Sign up to fully enjoy exciting features offered by Zoomflex",
   },
-  LOGIN: {
-    title: "Log in",
-    text: "Log in to enjoy all features offered by Zoomflex",
+  SIGNIN: {
+    title: "Sign in",
+    text: "Sign in to enjoy all features offered by Zoomflex",
   },
 }
 
 const ACTIONS = {
-  CONFIRM: confirmSignUp,
   SIGNUP: signUp,
-  LOGIN: signIn,
+  SIGNIN: signIn,
 }
 
 const KEY = "session-create-error"
@@ -87,7 +81,7 @@ function Session({ type, initialEmail, onSuccess }) {
 }
 
 Session.propTypes = {
-  type: PropTypes.oneOf([LOGIN, SIGNUP, CONFIRM]).isRequired,
+  type: PropTypes.oneOf([SIGNIN, SIGNUP]).isRequired,
   initialEmail: PropTypes.string,
   onSuccess: PropTypes.func,
 }
