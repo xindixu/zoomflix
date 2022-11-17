@@ -5,6 +5,7 @@ import AuthContext from "../context/auth"
 
 function SignOut() {
   const router = useRouter()
+  // @ts-ignore
   const { setCurrentUser, isLoggedIn } = useContext(AuthContext)
 
   if (isLoggedIn) {

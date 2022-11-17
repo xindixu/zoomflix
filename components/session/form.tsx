@@ -15,7 +15,7 @@ const BUTTON_TEXT = {
 
 type TProps = {
   type: typeof SIGNIN | typeof SIGNUP
-  onSubmit: () => {}
+  onSubmit: (value: any) => {}
   initialValues: {
     username: string
     password: string

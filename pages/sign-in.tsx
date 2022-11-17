@@ -7,6 +7,7 @@ import { getCurrentUser } from "../lib/auth"
 
 function SignIn() {
   const router = useRouter()
+  // @ts-ignore
   const { setCurrentUser, isLoggedIn, userLoaded } = useContext(AuthContext)
 
   useEffect(() => {

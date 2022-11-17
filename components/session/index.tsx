@@ -54,6 +54,7 @@ function Session({ type, initialEmail, onSuccess }) {
 
       onSuccess(user)
     } catch (err) {
+      // @ts-ignore
       openNotification(NOTIFICATIONS[type], err.message)
     } finally {
       setIsSubmitting(false)
@@ -64,6 +65,7 @@ function Session({ type, initialEmail, onSuccess }) {
     <NewSession
       type={type}
       onSubmit={onSubmit}
+      // @ts-ignore
       initialValues={{ email: initialEmail }}
     />
   )

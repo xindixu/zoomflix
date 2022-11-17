@@ -24,7 +24,7 @@ const Call = () => {
 
   const [callId, setCallId] = useState("")
   const [step, setStep] = useState(START_WEBCAM)
-  const [isHost, setIsHost] = useState()
+  const [isHost, setIsHost] = useState(false)
 
   const setUpVideos = useCallback(async () => {
     localStream.current = await navigator.mediaDevices.getUserMedia({
@@ -35,13 +35,15 @@ const Call = () => {
 
     // push tracks from local stream to peer connection
     localStream.current.getTracks().forEach((track) => {
-      peerConnection.current.addTrack(track, localStream.current)
+      if (localStream.current) {
+        peerConnection.current.addTrack(track, localStream.current)
+      }
     })
 
     // pull tracks from peer connection to remote stream
     peerConnection.current.ontrack = (event) => {
       event.streams[0].getTracks().forEach((track) => {
-        remoteStream.current.addTrack(track)
+        remoteStream.current?.addTrack(track)
       })
     }
 
