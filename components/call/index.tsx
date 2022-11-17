@@ -1,4 +1,4 @@
-import { Button, Input } from "antd"
+import { Button, Col, Row, Input } from "antd"
 import React, { useCallback, useRef, useState } from "react"
 import { firestore } from "../../lib/firebase"
 
@@ -11,6 +11,10 @@ const servers = {
   iceCandidatePoolSize: 10,
 }
 
+const START_WEBCAM = "START_WEBCAM"
+const START_CALL = "START_CALL"
+const JOINED_CALL = "JOINED_CALL"
+
 const Call = () => {
   const peerConnection = useRef(new RTCPeerConnection(servers))
   const localStream = useRef<MediaStream | null>(null)
@@ -19,6 +23,8 @@ const Call = () => {
   const remoteVideo = useRef<HTMLVideoElement>(null)
 
   const [callId, setCallId] = useState("")
+  const [step, setStep] = useState(START_WEBCAM)
+  const [isHost, setIsHost] = useState()
 
   const setUpVideos = useCallback(async () => {
     localStream.current = await navigator.mediaDevices.getUserMedia({
@@ -46,6 +52,7 @@ const Call = () => {
     if (remoteVideo.current) {
       remoteVideo.current.srcObject = remoteStream.current
     }
+    setStep(START_CALL)
   }, [])
 
   const createOffer = useCallback(async () => {
@@ -54,6 +61,7 @@ const Call = () => {
     const answerCandidates = callDoc.collection("answerCandidates")
 
     setCallId(callDoc.id)
+    setIsHost(true)
 
     // Get candidates for caller, save to db
     peerConnection.current.onicecandidate = (event) => {
@@ -91,10 +99,11 @@ const Call = () => {
         }
       })
     })
+
+    setStep(JOINED_CALL)
   }, [])
 
   const answerCall = useCallback(async () => {
-    console.log("callId", callId)
     if (!callId) {
       return
     }
@@ -137,18 +146,60 @@ const Call = () => {
         }
       })
     })
-  }, [])
+
+    setStep(JOINED_CALL)
+  }, [callId])
 
   return (
     <div>
-      <Button onClick={setUpVideos}>Start</Button>
-      <video ref={localVideo} autoPlay playsInline />
-      <video ref={remoteVideo} autoPlay playsInline />
+      {step === START_WEBCAM && (
+        <>
+          <p>Step 1:</p>
+          <p>Start your webcam</p>
+          <Button onClick={setUpVideos}>Turn on web cam</Button>
+        </>
+      )}
 
-      <Button onClick={createOffer}>Call</Button>
+      {step === START_CALL && (
+        <>
+          <p>Step 2:</p>
+          <p>Start a new call</p>
+          <Button onClick={createOffer}>Start a call</Button>
+          {isHost || (
+            <>
+              <p>Or join an existing call</p>
+              <Input
+                type="text"
+                value={callId}
+                onChange={(e) => setCallId(e.target.value)}
+              />
+              <Button onClick={answerCall} disabled={!callId}>
+                Join the call
+              </Button>
+            </>
+          )}
+        </>
+      )}
 
-      <Input value={callId} onChange={(e) => setCallId(e.target.value)} />
-      <Button onClick={answerCall}>Answer</Button>
+      {step === JOINED_CALL && (
+        <>
+          <p>Step 3:</p>
+          {isHost && !!callId ? (
+            <p>Please share this call ID: {callId} </p>
+          ) : (
+            <p>Joined</p>
+          )}
+        </>
+      )}
+
+      <Row>
+        <Col span={12}>
+          <video ref={localVideo} autoPlay playsInline />
+        </Col>
+        <Col span={12}>
+          <video ref={remoteVideo} autoPlay playsInline />
+        </Col>
+      </Row>
     </div>
   )
 }
