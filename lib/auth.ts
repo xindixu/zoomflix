@@ -1,4 +1,3 @@
-// import { Auth } from "aws-amplify"
 import { apiFetch } from "./api-fetch"
 
 export function signUp({ email, username, password }) {

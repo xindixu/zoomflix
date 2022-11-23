@@ -1,7 +1,7 @@
 import axios from "axios"
 
 export const API_ENDPOINT =
-  "https://kily7juzqa.execute-api.us-east-1.amazonaws.com/prod/"
+  "https://teprwsutv4.execute-api.us-east-1.amazonaws.com/prod/"
 
 // export const API_ENDPOINT = "http://localhost:80"
 

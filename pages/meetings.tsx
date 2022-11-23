@@ -1,7 +1,7 @@
 import React from "react"
 import dynamic from "next/dynamic"
 
-const Call = dynamic(() => import("../../components/call"), { ssr: false })
+const Call = dynamic(() => import("../components/call"), { ssr: false })
 
 type Props = {}
 
