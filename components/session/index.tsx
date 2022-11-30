@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
-import PropTypes from "prop-types"
 import { notification, Spin, Typography, Col, Row } from "antd"
 import { signUp, signIn } from "../../lib/auth"
-import NewSession, { SIGNUP, SIGNIN } from "./form"
+import NewSession from "./form"
+import Google from "./google"
 
 const { Title, Text } = Typography
 
@@ -22,6 +22,14 @@ const PROMPTS = {
   },
 }
 
+export const SIGNIN = "SIGNIN"
+export const SIGNUP = "SIGNUP"
+
+export const BUTTON_TEXT = {
+  SIGNIN: "Sign in",
+  SIGNUP: "Sign up",
+}
+
 const ACTIONS = {
   SIGNUP: signUp,
   SIGNIN: signIn,
@@ -37,7 +45,13 @@ const openNotification = (title, msg) => {
   })
 }
 
-function Session({ type, initialEmail, onSuccess }) {
+type TProps = {
+  type: typeof SIGNIN | typeof SIGNUP
+  initialEmail?: string
+  onSuccess: (user: any) => void
+}
+
+function Session({ type, initialEmail = "", onSuccess }: TProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
@@ -62,12 +76,16 @@ function Session({ type, initialEmail, onSuccess }) {
   }
 
   const content = (
-    <NewSession
-      type={type}
-      onSubmit={onSubmit}
-      // @ts-ignore
-      initialValues={{ email: initialEmail }}
-    />
+    <>
+      <NewSession
+        type={type}
+        onSubmit={onSubmit}
+        // @ts-ignore
+        initialValues={{ email: initialEmail }}
+      />
+
+      <Google type={type} onSuccess={onSuccess} />
+    </>
   )
   return (
     <>
@@ -80,17 +98,6 @@ function Session({ type, initialEmail, onSuccess }) {
       {isSubmitting ? <Spin>{content}</Spin> : content}
     </>
   )
-}
-
-Session.propTypes = {
-  type: PropTypes.oneOf([SIGNIN, SIGNUP]).isRequired,
-  initialEmail: PropTypes.string,
-  onSuccess: PropTypes.func,
-}
-
-Session.defaultProps = {
-  initialEmail: "",
-  onSuccess: () => {},
 }
 
 export default Session

@@ -2,16 +2,9 @@
 import React, { useEffect } from "react"
 import NextLink from "next/link"
 import { Form, Input, Button, Typography } from "antd"
+import { SIGNIN, SIGNUP, BUTTON_TEXT } from "./index"
 
 const { Text, Link } = Typography
-
-export const SIGNIN = "SIGNIN"
-export const SIGNUP = "SIGNUP"
-
-const BUTTON_TEXT = {
-  SIGNIN: "Sign in",
-  SIGNUP: "Sign up",
-}
 
 type TProps = {
   type: typeof SIGNIN | typeof SIGNUP

@@ -1,9 +1,9 @@
 import axios from "axios"
 
-export const API_ENDPOINT =
-  "https://teprwsutv4.execute-api.us-east-1.amazonaws.com/prod/"
+// export const API_ENDPOINT =
+//   "https://teprwsutv4.execute-api.us-east-1.amazonaws.com/prod/"
 
-// export const API_ENDPOINT = "http://localhost:80"
+export const API_ENDPOINT = "http://127.0.0.1:5000"
 
 // TODO: use this function to fetch data from the api
 export const apiFetch = ({

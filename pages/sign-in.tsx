@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react"
 import { useRouter } from "next/router"
 import Session from "../components/session"
-import { SIGNIN } from "../components/session/form"
+import { SIGNIN } from "../components/session"
 import AuthContext from "../context/auth"
 import { getCurrentUser } from "../lib/auth"
 

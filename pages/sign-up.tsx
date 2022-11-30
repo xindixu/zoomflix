@@ -1,7 +1,7 @@
 import React from "react"
 import { useRouter } from "next/router"
 import Session from "../components/session"
-import { SIGNUP } from "../components/session/form"
+import { SIGNUP } from "../components/session"
 
 function SignUp() {
   const router = useRouter()
