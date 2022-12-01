@@ -38,7 +38,7 @@ export const AuthContextProvider = ({ children }) => {
           setCurrentUser({
             username: name,
             email,
-          })
+          } as TUser)
           router.push(
             {
               pathname: "/",
