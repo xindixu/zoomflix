@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { notification, Spin, Typography, Col, Row } from "antd"
+import { Divider, notification, Spin, Typography, Col, Row } from "antd"
 import dynamic from "next/dynamic"
 
 import { signUp, signIn } from "../../lib/auth"
@@ -59,13 +59,13 @@ function Session({ type, initialEmail = "", onSuccess }: TProps) {
 
   useEffect(() => {
     return () => {
-      notification.close(KEY)
+      notification.destroy(KEY)
     }
   }, [])
 
   const onSubmit = async (values) => {
     try {
-      notification.close(KEY)
+      notification.destroy(KEY)
       setIsSubmitting(true)
       const { user } = await ACTIONS[type](values)
 
@@ -86,13 +86,15 @@ function Session({ type, initialEmail = "", onSuccess }: TProps) {
         // @ts-ignore
         initialValues={{ email: initialEmail }}
       />
-
-      <Google type={type} onSuccess={onSuccess} />
+      <Divider plain> Or </Divider>
+      <Col offset={4}>
+        <Google type={type} onSuccess={onSuccess} />
+      </Col>
     </>
   )
   return (
     <>
-      <Row className="tw-mb-4">
+      <Row>
         <Col offset={4}>
           <Title level={2}>{PROMPTS[type].title}</Title>
           <Text>{PROMPTS[type].text}</Text>
