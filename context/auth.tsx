@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
+import * as jose from "jose"
 import { CLIENT_ID } from "../lib/auth"
 
+type TUser = {
+  email: string
+  username: string
+}
+
 type TAuthContext = {
-  currentUser?: {
-    username: string
-    accessToken: string
-  }
+  currentUser?: TUser
   setCurrentUser: (user: any) => void
 }
 
 const AuthContext = React.createContext<TAuthContext>({
-  setCurrentUser: () => {},
+  setCurrentUser: React.Dispatch<React.SetStateAction<TUser | undefined>>,
 })
 
 export const AuthContextProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState()
+  const [currentUser, setCurrentUser] = useState<TUser>()
   const router = useRouter()
 
   useEffect(() => {
@@ -24,12 +27,23 @@ export const AuthContextProvider = ({ children }) => {
       google.accounts.id.initialize({
         client_id: CLIENT_ID,
         callback: (res) => {
-          setCurrentUser(res)
+          if (!res.credential) {
+            return
+          }
+          const { credential } = res
+          console.log(credential)
+          const payload = jose.decodeJwt(credential)
+          const { email, name } = payload
+          console.log(payload)
+          setCurrentUser({
+            username: name,
+            email,
+          })
           router.push(
             {
               pathname: "/",
               query: {
-                hint: "Welcome back",
+                hint: `Welcome back, ${name}`,
                 type: "success",
               },
             },
