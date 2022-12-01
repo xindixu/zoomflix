@@ -1,11 +1,13 @@
-import React from "react"
+import React, { useContext } from "react"
 import dynamic from "next/dynamic"
+
+import AuthContext from "../context/auth"
 
 const Call = dynamic(() => import("../components/call"), { ssr: false })
 
-type Props = {}
-
 const Meetings = () => {
+  const { currentUser } = useContext(AuthContext)
+
   return (
     <div>
       <Call />

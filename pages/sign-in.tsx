@@ -3,15 +3,14 @@ import { useRouter } from "next/router"
 import Session from "../components/session"
 import { SIGNIN } from "../components/session"
 import AuthContext from "../context/auth"
-import { getCurrentUser } from "../lib/auth"
 
 function SignIn() {
   const router = useRouter()
   // @ts-ignore
-  const { setCurrentUser, isLoggedIn, userLoaded } = useContext(AuthContext)
+  const { currentUser, setCurrentUser } = useContext(AuthContext)
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (currentUser) {
       router.push(
         {
           pathname: "/",
@@ -25,9 +24,8 @@ function SignIn() {
     }
   }, [])
 
-  const onSuccess = async () => {
-    await getCurrentUser().then(setCurrentUser)
-
+  const onSuccess = async (res) => {
+    setCurrentUser(res)
     router.push(
       {
         pathname: "/",

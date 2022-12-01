@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { notification, Spin, Typography, Col, Row } from "antd"
+import dynamic from "next/dynamic"
+
 import { signUp, signIn } from "../../lib/auth"
 import NewSession from "./form"
-import Google from "./google"
+
+const Google = dynamic(() => import("./google"), { ssr: false })
 
 const { Title, Text } = Typography
 
