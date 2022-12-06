@@ -86,8 +86,8 @@ function Session({ type, initialEmail = "", onSuccess }: TProps) {
         // @ts-ignore
         initialValues={{ email: initialEmail }}
       />
-      <Divider plain> Or </Divider>
-      <Col offset={4}>
+      <Col offset={4} span={16}>
+        <Divider plain> Or </Divider>
         <Google type={type} onSuccess={onSuccess} />
       </Col>
     </>

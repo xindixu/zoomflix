@@ -31,7 +31,7 @@ function SessionForm({ type, onSubmit, initialValues }: TProps) {
 
   return (
     <Form
-      name="basic"
+      name="session"
       labelCol={{ span: 4 }}
       wrapperCol={{ span: 16 }}
       initialValues={initialValues}

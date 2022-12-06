@@ -5,7 +5,8 @@ import AuthContext from "../context/auth"
 
 const ROUTES = {
   home: "/",
-  meeting: "/meetings",
+  meetings: "/meetings",
+  rooms: "/rooms",
   signIn: "/sign-in",
   signOut: "/sign-out",
 }
@@ -15,7 +16,8 @@ const Nav = () => {
   const { currentUser } = useContext(AuthContext)
   const items = [
     { key: "home", label: "Home" },
-    { key: "meeting", label: "Meeting" },
+    { key: "meetings", label: "Meetings" },
+    { key: "rooms", label: "Rooms" },
     { key: "signIn", label: "Sign In" },
   ]
 
