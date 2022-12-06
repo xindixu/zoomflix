@@ -67,6 +67,7 @@ function Session({ type, initialEmail = "", onSuccess }: TProps) {
     try {
       notification.destroy(KEY)
       setIsSubmitting(true)
+      // @ts-ignore
       const { user } = await ACTIONS[type](values)
 
       onSuccess(user)
