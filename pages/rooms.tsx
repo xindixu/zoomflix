@@ -21,7 +21,7 @@ const Rooms: NextPage = () => {
         onSubmit={(values) => {
           // TODO: call api to create room
           fackAPI(values).then((id) => {
-            router.push(`/rooms/${id}`)
+            router.push(`/meetings?roomId=${id}`)
           })
         }}
       />

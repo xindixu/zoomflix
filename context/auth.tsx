@@ -14,7 +14,7 @@ type TAuthContext = {
 }
 
 const AuthContext = React.createContext<TAuthContext>({
-  setCurrentUser: React.Dispatch<React.SetStateAction<TUser | undefined>>,
+  setCurrentUser: () => {},
 })
 
 export const AuthContextProvider = ({ children }) => {
@@ -22,37 +22,36 @@ export const AuthContextProvider = ({ children }) => {
   const router = useRouter()
 
   useEffect(() => {
-    if (window?.google) {
-      const { google } = window
-      google.accounts.id.initialize({
-        client_id: CLIENT_ID,
-        callback: (res) => {
-          if (!res.credential) {
-            return
-          }
-          const { credential } = res
-          console.log(credential)
-          const payload = jose.decodeJwt(credential)
-          const { email, name } = payload
-          console.log(payload)
-          setCurrentUser({
-            username: name,
-            email,
-          } as TUser)
-          router.push(
-            {
-              pathname: "/",
-              query: {
-                hint: `Welcome back, ${name}`,
-                type: "success",
-              },
+    // @ts-ignore
+
+    window?.google.accounts.id.initialize({
+      client_id: CLIENT_ID,
+      callback: (res) => {
+        if (!res.credential) {
+          return
+        }
+        const { credential } = res
+        console.log(credential)
+        const payload = jose.decodeJwt(credential)
+        const { email, name } = payload
+        console.log(payload)
+        setCurrentUser({
+          username: name,
+          email,
+        } as TUser)
+        router.push(
+          {
+            pathname: "/",
+            query: {
+              hint: `Welcome back, ${name}`,
+              type: "success",
             },
-            "/"
-          )
-        },
-      })
-      // google.accounts.id.prompt()
-    }
+          },
+          "/"
+        )
+      },
+    })
+    // google.accounts.id.prompt()
   }, [])
 
   return (
@@ -60,7 +59,6 @@ export const AuthContextProvider = ({ children }) => {
       value={{
         currentUser,
         setCurrentUser: (res) => {
-          console.log(res)
           setCurrentUser(res)
         },
       }}
