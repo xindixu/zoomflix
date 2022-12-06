@@ -11,30 +11,30 @@ const ROUTES = {
   signOut: "/sign-out",
 }
 
+const DEFAULT_ITEMS = [
+  { key: "home", label: "Home" },
+  { key: "meetings", label: "Meetings" },
+  { key: "rooms", label: "Rooms" },
+]
+
 const Nav = () => {
   const router = useRouter()
   const { currentUser } = useContext(AuthContext)
-  const items = [
-    { key: "home", label: "Home" },
-    { key: "meetings", label: "Meetings" },
-    { key: "rooms", label: "Rooms" },
-    { key: "signIn", label: "Sign In" },
-  ]
+  const sessionITem = currentUser?.username
+    ? {
+        key: "subMenu",
+        label: currentUser.username,
+        children: [{ key: "signOut", label: "Sign Out" }],
+      }
+    : { key: "signIn", label: "Sign In" }
 
-  if (currentUser?.username) {
-    items.push({
-      key: "subMenu",
-      label: currentUser.username,
-      children: [{ key: "signOut", label: "Sign Out" }],
-    })
-  }
   return (
     <>
       <Menu
         theme="dark"
         mode="horizontal"
         onClick={({ key }) => router.push(ROUTES[key])}
-        items={items}
+        items={[...DEFAULT_ITEMS, sessionITem]}
       />
     </>
   )
