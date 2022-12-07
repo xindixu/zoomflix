@@ -5,15 +5,21 @@ import AuthContext from "../context/auth"
 import { useRouter } from "next/router"
 
 const Call = dynamic(() => import("../components/call"), { ssr: false })
+const Video = dynamic(() => import("../components/video"), { ssr: false })
 
 const Meetings = () => {
   const { currentUser } = useContext(AuthContext)
   const { query } = useRouter()
+  const { roomId } = query
+  if (!roomId) {
+    return <div>Room not found</div>
+  }
+
   console.log(currentUser?.email, currentUser?.username)
   return (
     <div>
-      {query.roomId}
       <Call />
+      <Video />
     </div>
   )
 }
