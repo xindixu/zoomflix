@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react"
-import { useRouter } from "next/router"
-import * as jose from "jose"
 
 export type TUser = {
   uid: string

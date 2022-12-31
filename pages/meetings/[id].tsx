@@ -1,12 +1,10 @@
 import React, { useContext, useEffect, useState } from "react"
 import dynamic from "next/dynamic"
-import { Button, Typography } from "antd"
 
 import AuthContext from "../../context/auth"
 import { useRouter } from "next/router"
 import withProtectedRoute from "../../components/protected-routes"
-import NextLink from "next/link"
-import { getRoom, getVideo, getVideoUrlByRoomId } from "../../lib/api"
+import { getMeeting } from "../../lib/meetings"
 
 const Call = dynamic(() => import("../../components/call"), { ssr: false })
 const Video = dynamic(() => import("../../components/video"), { ssr: false })
@@ -17,33 +15,56 @@ const Meeting = () => {
   const { query } = router
   const { id } = query
 
+  const { uid } = currentUser
   const [url, setUrl] = useState("")
-  const [hostId, setHostId] = useState(-1)
+  const [hostId, setHostId] = useState("")
 
   useEffect(() => {
-    if (id) {
-      setHostId(window.localStorage.getItem("hostId"))
-      setUrl("https://youtu.be/q80UL3FV5H0")
-
-      //   const start = async () => {
-      //     const room = await getRoom(id)
-      //     const videoId = room.video_id
-      //     setHostId(room.host_id)
-
-      //     const video = await getVideo(videoId)
-      //     setUrl(video.video_url)
-      //   }
-      //   try {
-      //     start()
-      //   } catch (error) {
-      //     console.error(error)
-      //   }
+    if (!id || Array.isArray(id) || !uid) {
+      return
     }
-  }, [id])
+    const start = async () => {
+      const meeting = await getMeeting(id)
+
+      if (!meeting) {
+        return router.push(
+          {
+            pathname: "/meetings/new",
+            query: {
+              hint: "Meeting not found",
+              type: "warning",
+            },
+          },
+          "/meetings/new"
+        )
+      }
+
+      if (!meeting.participantIds?.includes(uid) && meeting.hostId !== uid) {
+        return router.push(
+          {
+            pathname: "/meetings/new",
+            query: {
+              hint: "You are not invited to this meeting",
+              type: "warning",
+            },
+          },
+          "/meetings/new"
+        )
+      }
+      setHostId(meeting.hostId)
+      setUrl(meeting.videoUrl)
+    }
+
+    try {
+      start()
+    } catch (error) {
+      console.error(error)
+    }
+  }, [id, uid])
 
   return (
     <div>
-      {id && hostId && <Call id={id} isHost={hostId === "1"} />}
+      {id && uid && hostId && <Call id={id} isHost={hostId === uid} />}
       {url && <Video url={url} />}
     </div>
   )

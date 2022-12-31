@@ -10,8 +10,8 @@ import { db } from "./firebase"
 import { TUser } from "../context/auth"
 
 export const createUser = async ({ uid, email }) => {
-  const usersRef = doc(db, `/users/${uid}`)
-  await setDoc(usersRef, { email })
+  const userRef = doc(db, `/users/${uid}`)
+  await setDoc(userRef, { email })
 }
 
 export const listUsers = async () => {
@@ -22,7 +22,6 @@ export const listUsers = async () => {
   const users: TUser[] = []
   querySnapshot.forEach((doc) => {
     users.push({ uid: doc.id, ...doc.data() } as TUser)
-    console.log(doc.id, " => ", doc.data())
   })
 
   return users

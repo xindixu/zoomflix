@@ -10,17 +10,21 @@ import { createMeeting } from "../../lib/meetings"
 
 const { Title } = Typography
 
-export type TForm = {
-  videoName: string
-  videoUrl: string
-  participantIds: string[]
-}
-
 const Meetings = () => {
+  const router = useRouter()
+  const { currentUser } = useContext(AuthContext)
+
+  if (!currentUser) return null
+
+  const onSubmit = async (value) => {
+    const meeting = await createMeeting(value)
+    router.push(`/meetings/${meeting.id}`)
+  }
+
   return (
     <div>
       <Title level={2}>Create a meeting</Title>
-      <MeetingForm onSubmit={createMeeting} />
+      <MeetingForm onSubmit={onSubmit} hostId={currentUser.uid} />
     </div>
   )
 }

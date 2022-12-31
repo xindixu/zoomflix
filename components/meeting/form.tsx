@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react"
-import { Form, Input, Button, Select } from "antd"
+import { Form, Input, Button, Select, Spin } from "antd"
 import { listUsers } from "../../lib/users"
 
 type TProps = {
   onSubmit: (value: any) => void
+  hostId: string
   initialValues?: {
     videoName: string
     videoURL: string
@@ -11,12 +12,16 @@ type TProps = {
   }
 }
 
-const MeetingForm = ({ onSubmit, initialValues }: TProps) => {
+const MeetingForm = ({ onSubmit, hostId, initialValues }: TProps) => {
   const [form] = Form.useForm()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const [users, setUsers] = useState<{ value: string; label: string }[]>([])
 
-  const onFinish = (values) => {
-    onSubmit(values)
+  const onFinish = async (values) => {
+    setIsSubmitting(true)
+    await onSubmit({ hostId, ...values })
+    setIsSubmitting(false)
   }
 
   const onFinishFailed = (errorInfo) => {
@@ -28,14 +33,18 @@ const MeetingForm = ({ onSubmit, initialValues }: TProps) => {
   useEffect(() => {
     try {
       listUsers().then((data) =>
-        setUsers(data?.map((d) => ({ value: d.uid, label: d.email })))
+        setUsers(
+          data
+            ?.filter((d) => d.uid != hostId)
+            ?.map((d) => ({ value: d.uid, label: d.email }))
+        )
       )
     } catch (e) {
       console.error(e)
     }
   }, [])
 
-  return (
+  const content = (
     <Form
       name="meeting"
       labelCol={{ span: 4 }}
@@ -83,6 +92,8 @@ const MeetingForm = ({ onSubmit, initialValues }: TProps) => {
       </Form.Item>
     </Form>
   )
+
+  return isSubmitting ? <Spin>{content}</Spin> : content
 }
 
 export default MeetingForm
