@@ -6,7 +6,6 @@ import {
   getDoc,
   query,
   where,
-  FieldPath,
   documentId,
 } from "firebase/firestore"
 import emailjs from "@emailjs/browser"

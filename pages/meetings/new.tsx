@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react"
-import { Form, Steps, Typography } from "antd"
+import React, { useContext } from "react"
+import { Typography } from "antd"
 
 import AuthContext from "../../context/auth"
 import { useRouter } from "next/router"
