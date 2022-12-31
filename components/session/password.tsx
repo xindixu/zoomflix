@@ -12,6 +12,7 @@ type Props = {
   onSuccess: (user: any) => void
   setIsSubmitting: (isSubmitting: boolean) => void
   initialValues: {
+    name?: string
     password: string
     email: string
   }
@@ -58,7 +59,7 @@ function Password({ type, onSuccess, initialValues, setIsSubmitting }: Props) {
       notification.destroy(KEY)
       setIsSubmitting(true)
       // @ts-ignore
-      const { user } = await ACTIONS[type](values)
+      const user = await ACTIONS[type](values)
       console.log(user)
       onSuccess(user)
     } catch (err) {
@@ -79,6 +80,11 @@ function Password({ type, onSuccess, initialValues, setIsSubmitting }: Props) {
       onFinishFailed={onFinishFailed}
       form={form}
     >
+      {type === SIGNUP && (
+        <Form.Item label="Name" name="name" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+      )}
       <Form.Item
         label="Email"
         name="email"

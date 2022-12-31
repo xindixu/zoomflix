@@ -7,12 +7,14 @@ import {
 } from "firebase/auth"
 
 import { auth } from "./firebase"
-import { createUser } from "./users"
+import { createUser, getUser } from "./users"
 
 export const signIn = async ({ email, password }) => {
   try {
     const result = await signInWithEmailAndPassword(auth, email, password)
-    return result
+    const { uid } = result.user
+    const user = await getUser(uid)
+    return user
   } catch (error: any) {
     const errorCode = error.code
     const errorMessage = error.message
@@ -25,11 +27,13 @@ export const signIn = async ({ email, password }) => {
   }
 }
 
-export const signUp = async ({ email, password }) => {
+export const signUp = async ({ name, email, password }) => {
   try {
     const result = await createUserWithEmailAndPassword(auth, email, password)
-    await createUser({ uid: result.user.uid, email: result.user.email })
-    return result
+    const { uid } = result.user
+    const user = { uid, email, name }
+    await createUser(user)
+    return user
   } catch (error: any) {
     const errorCode = error.code
     const errorMessage = error.message
@@ -43,8 +47,14 @@ const provider = new GoogleAuthProvider()
 export const signInWithGoogle = async () => {
   try {
     const result = await signInWithPopup(auth, provider)
-    await createUser({ uid: result.user.uid, email: result.user.email })
-    return result
+    const { uid, email, displayName: name } = result.user
+    const user = {
+      uid,
+      email,
+      name,
+    }
+    await createUser(user)
+    return user
   } catch (error: any) {
     const errorCode = error.code
     const errorMessage = error.message

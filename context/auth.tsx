@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react"
 
 export type TUser = {
-  uid: string
   email: string
+  name: string
+  uid: string
 }
 
 type TAuthContext = {
@@ -27,6 +28,7 @@ export const AuthContextProvider = ({ children }) => {
         if (user) {
           setCurrentUser({
             email: user.email,
+            name: user.name,
             uid: user.uid,
           })
         }

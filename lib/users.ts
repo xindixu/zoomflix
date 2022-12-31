@@ -1,6 +1,7 @@
 import {
   collection,
   doc,
+  getDoc,
   getDocs,
   orderBy,
   query,
@@ -9,9 +10,19 @@ import {
 import { db } from "./firebase"
 import { TUser } from "../context/auth"
 
-export const createUser = async ({ uid, email }) => {
-  const userRef = doc(db, `/users/${uid}`)
-  await setDoc(userRef, { email })
+export const createUser = async ({ uid, email, name }) => {
+  const userRef = doc(db, `users/${uid}`)
+  await setDoc(userRef, { email, name })
+}
+
+export const getUser = async (uid: string) => {
+  const userRef = doc(db, `users/${uid}`)
+  const docSnap = await getDoc(userRef)
+  if (docSnap.exists()) {
+    return { uid, ...docSnap.data() } as TUser
+  } else {
+    return null
+  }
 }
 
 export const listUsers = async () => {

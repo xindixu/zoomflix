@@ -24,8 +24,8 @@ const Nav = () => {
   const { currentUser, loaded } = useContext(AuthContext)
 
   const sessionItem =
-    loaded && currentUser?.email
-      ? { key: "signOut", label: currentUser?.email }
+    loaded && currentUser?.name
+      ? { key: "signOut", label: currentUser?.name }
       : {
           key: "signIn",
           label: "Sign In",
