@@ -51,9 +51,7 @@ export const sendInvites = async ({
     )
   })
 
-  return Promise.all(requests).then((responses) => {
-    console.log(responses)
-  })
+  return Promise.all(requests)
 }
 
 export const createMeeting = async ({

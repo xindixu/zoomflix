@@ -23,7 +23,7 @@ export const signIn = async ({ email, password }) => {
     } else {
       alert(errorMessage)
     }
-    console.log(error)
+    console.error(error)
   }
 }
 
@@ -38,7 +38,7 @@ export const signUp = async ({ name, email, password }) => {
     const errorCode = error.code
     const errorMessage = error.message
     alert(errorMessage)
-    console.log(error)
+    console.error(error)
   }
 }
 
@@ -59,7 +59,7 @@ export const signInWithGoogle = async () => {
     const errorCode = error.code
     const errorMessage = error.message
     alert(errorMessage)
-    console.log(error)
+    console.error(error)
   }
 }
 
@@ -79,7 +79,7 @@ export const signOut = () => signOutFirebase(auth)
 //       } else if (errorCode == "auth/user-not-found") {
 //         alert(errorMessage)
 //       }
-//       console.log(error)
+//       console.error(error)
 //     })
 // }
 
