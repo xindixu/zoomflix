@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import NextLink from "next/link"
 import { Form, Input, Button, Typography, notification } from "antd"
 import { SIGNIN, SIGNUP, BUTTON_TEXT } from "./index"

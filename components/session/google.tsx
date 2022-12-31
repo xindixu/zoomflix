@@ -15,7 +15,7 @@ const Google = ({ onSuccess, type, setIsSubmitting }: Props) => {
     const user = await signInWithGoogle()
     onSuccess(user)
     setIsSubmitting(false)
-  }, [])
+  }, [onSuccess, setIsSubmitting])
 
   return <Button onClick={onClick}>{BUTTON_TEXT[type]} with Google</Button>
 }

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react"
-import { Divider, notification, Spin, Typography, Col, Row } from "antd"
+import React, { useState } from "react"
+import { Divider, Spin, Typography, Col, Row } from "antd"
 
-import { signUp, signIn } from "../../lib/auth"
-import NewSession from "./password"
+import PasswordForm from "./password"
 import GoogleForm from "./google"
 
 const { Title, Text } = Typography
@@ -37,7 +36,7 @@ function Session({ type, initialEmail = "", onSuccess }: TProps) {
 
   const content = (
     <>
-      <NewSession
+      <PasswordForm
         type={type}
         onSuccess={onSuccess}
         setIsSubmitting={setIsSubmitting}
