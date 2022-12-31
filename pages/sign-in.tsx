@@ -24,10 +24,16 @@ function SignIn() {
   }, [])
 
   const onSuccess = async (res) => {
-    if (localStorage) {
-      localStorage.setItem("user", JSON.stringify(res))
+    const user = {
+      email: res.email,
+      uid: res.uid,
     }
-    setCurrentUser(res)
+    setCurrentUser(user)
+
+    if (localStorage) {
+      localStorage.setItem("user", JSON.stringify(user))
+    }
+
     router.push(
       {
         pathname: "/",

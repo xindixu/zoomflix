@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext } from "react"
 import { useRouter } from "next/router"
 import Session from "../components/session"
 import { SIGNUP } from "../components/session"
@@ -9,7 +9,16 @@ function SignUp() {
   const { setCurrentUser } = useContext(AuthContext)
 
   const onSuccess = async (res) => {
-    setCurrentUser(res)
+    const user = {
+      email: res.email,
+      uid: res.uid,
+    }
+
+    setCurrentUser(user)
+
+    if (localStorage) {
+      localStorage.setItem("user", JSON.stringify(user))
+    }
     router.push(
       {
         pathname: "/",

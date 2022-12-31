@@ -23,7 +23,7 @@ function SignOut() {
 
   useEffect(() => {
     signOut().then(async () => {
-      setCurrentUser({})
+      setCurrentUser()
 
       localStorage.removeItem("user")
 

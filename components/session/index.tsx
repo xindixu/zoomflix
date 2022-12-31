@@ -1,18 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { Divider, notification, Spin, Typography, Col, Row } from "antd"
-import dynamic from "next/dynamic"
 
 import { signUp, signIn } from "../../lib/auth"
-import NewSession from "./form"
-
-const Google = dynamic(() => import("./google"), { ssr: false })
+import NewSession from "./password"
+import GoogleForm from "./google"
 
 const { Title, Text } = Typography
-
-const NOTIFICATIONS = {
-  SIGNUP: "Sign Up Failed",
-  SIGNIN: "Sign In Failed",
-}
 
 const PROMPTS = {
   SIGNUP: {
@@ -33,21 +26,6 @@ export const BUTTON_TEXT = {
   SIGNUP: "Sign up",
 }
 
-const ACTIONS = {
-  SIGNUP: signUp,
-  SIGNIN: signIn,
-}
-
-const KEY = "session-create-error"
-const openNotification = (title, msg) => {
-  notification.error({
-    message: title,
-    description: msg,
-    duration: 0,
-    key: KEY,
-  })
-}
-
 type TProps = {
   type: typeof SIGNIN | typeof SIGNUP
   initialEmail?: string
@@ -57,42 +35,26 @@ type TProps = {
 function Session({ type, initialEmail = "", onSuccess }: TProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  useEffect(() => {
-    return () => {
-      notification.destroy(KEY)
-    }
-  }, [])
-
-  const onSubmit = async (values) => {
-    try {
-      notification.destroy(KEY)
-      setIsSubmitting(true)
-      // @ts-ignore
-      const { user } = await ACTIONS[type](values)
-      console.log(user)
-      onSuccess(user)
-    } catch (err) {
-      // @ts-ignore
-      openNotification(NOTIFICATIONS[type], err.message)
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
   const content = (
     <>
       <NewSession
         type={type}
-        onSubmit={onSubmit}
+        onSuccess={onSuccess}
+        setIsSubmitting={setIsSubmitting}
         // @ts-ignore
         initialValues={{ email: initialEmail }}
       />
       <Col offset={4} span={16}>
         <Divider plain> Or </Divider>
-        <Google type={type} onSuccess={onSuccess} />
+        <GoogleForm
+          type={type}
+          onSuccess={onSuccess}
+          setIsSubmitting={setIsSubmitting}
+        />
       </Col>
     </>
   )
+
   return (
     <>
       <Row>

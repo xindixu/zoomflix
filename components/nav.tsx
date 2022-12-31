@@ -23,16 +23,13 @@ const Nav = () => {
   const router = useRouter()
   const { currentUser, loaded } = useContext(AuthContext)
 
-  const [sessionItem, setSessionItem] = useState({
-    key: "signIn",
-    label: "Sign In",
-  })
-
-  useEffect(() => {
-    if (loaded && currentUser?.username) {
-      setSessionItem({ key: "signOut", label: currentUser?.username })
-    }
-  }, [currentUser, loaded])
+  const sessionItem =
+    loaded && currentUser?.email
+      ? { key: "signOut", label: currentUser?.email }
+      : {
+          key: "signIn",
+          label: "Sign In",
+        }
 
   return (
     <>
@@ -58,11 +55,11 @@ const Nav = () => {
       </Button>
 
       <Button
-        onClick={() => router.push("/meeting?roomId=10")}
+        onClick={() => router.push("/meetings/1")}
         style={{
           position: "absolute",
           top: 16,
-          right: 200,
+          right: 300,
         }}
       >
         Current meeting

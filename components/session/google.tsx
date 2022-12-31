@@ -1,27 +1,23 @@
-import React, { useLayoutEffect } from "react"
-import { SIGNIN, SIGNUP } from "./index"
+import { Button } from "antd"
+import React, { useCallback } from "react"
+import { BUTTON_TEXT, SIGNIN, SIGNUP } from "./index"
+import { signInWithGoogle } from "../../lib/auth"
 
 type Props = {
   type: typeof SIGNIN | typeof SIGNUP
   onSuccess: (user: any) => void
+  setIsSubmitting: (isSubmitting: boolean) => void
 }
 
-const GOOGLE_LOGIN_BUTTON_ID = "google-login-button"
-
-const Google = ({}: Props) => {
-  useLayoutEffect(() => {
-    try {
-      // @ts-ignore
-      window?.google.accounts.id.renderButton(
-        document.getElementById(GOOGLE_LOGIN_BUTTON_ID),
-        { theme: "outline", size: "large" }
-      )
-    } catch (error) {
-      console.error(error)
-    }
+const Google = ({ onSuccess, type, setIsSubmitting }: Props) => {
+  const onClick = useCallback(async () => {
+    setIsSubmitting(true)
+    const user = await signInWithGoogle()
+    onSuccess(user)
+    setIsSubmitting(false)
   }, [])
 
-  return <div id={GOOGLE_LOGIN_BUTTON_ID}></div>
+  return <Button onClick={onClick}>{BUTTON_TEXT[type]} with Google</Button>
 }
 
 export default Google

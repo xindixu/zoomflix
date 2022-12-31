@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import * as jose from "jose"
-import { CLIENT_ID } from "../lib/auth"
 
 type TUser = {
-  id: number
+  uid: number
   email: string
-  username: string
 }
 
 type TAuthContext = {
   currentUser?: TUser
   loaded?: boolean
-  setCurrentUser: (user: any) => void
+  setCurrentUser: (user?: any) => void
 }
 
 const AuthContext = React.createContext<TAuthContext>({
@@ -22,52 +20,16 @@ const AuthContext = React.createContext<TAuthContext>({
 export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<TUser>()
   const [loaded, setLoaded] = useState(false)
-  const router = useRouter()
 
   useEffect(() => {
     try {
-      // @ts-ignore
-      window?.google.accounts.id.initialize({
-        client_id: CLIENT_ID,
-        callback: (res) => {
-          if (!res.credential) {
-            return
-          }
-          const { credential } = res
-          console.log(credential)
-          const payload = jose.decodeJwt(credential)
-          const { email, name } = payload
-          console.log(payload)
-          setCurrentUser({
-            username: name,
-            email,
-          } as TUser)
-          router.push(
-            {
-              pathname: "/",
-              query: {
-                hint: `Welcome back, ${name}`,
-                type: "success",
-              },
-            },
-            "/"
-          )
-        },
-      })
-    } catch (error) {
-      console.error("Failed to init google auth", error)
-    }
-  }, [])
-
-  useEffect(() => {
-    try {
-      if (localStorage) {
-        const user = JSON.parse(localStorage.getItem("user") || "") || {}
+      const rawUser = localStorage?.getItem("user")
+      if (rawUser) {
+        const user = JSON.parse(rawUser)
         if (user) {
           setCurrentUser({
-            username: user.username,
             email: user.email,
-            id: user.id,
+            uid: user.uid,
           })
         }
       }
@@ -77,6 +39,7 @@ export const AuthContextProvider = ({ children }) => {
     setLoaded(true)
   }, [])
 
+  console.log(currentUser)
   return (
     <AuthContext.Provider
       value={{

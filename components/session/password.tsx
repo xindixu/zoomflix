@@ -1,33 +1,73 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import NextLink from "next/link"
-import { Form, Input, Button, Typography } from "antd"
+import { Form, Input, Button, Typography, notification } from "antd"
 import { SIGNIN, SIGNUP, BUTTON_TEXT } from "./index"
 
 const { Text, Link } = Typography
+import { signUp, signIn } from "../../lib/auth"
 
-type TProps = {
+type Props = {
   type: typeof SIGNIN | typeof SIGNUP
-  onSubmit: (value: any) => {}
+  onSuccess: (user: any) => void
+  setIsSubmitting: (isSubmitting: boolean) => void
   initialValues: {
-    username: string
     password: string
     email: string
   }
 }
 
-function SessionForm({ type, onSubmit, initialValues }: TProps) {
+const NOTIFICATIONS = {
+  SIGNUP: "Sign Up Failed",
+  SIGNIN: "Sign In Failed",
+}
+
+const KEY = "session-create-error"
+
+const ACTIONS = {
+  SIGNUP: signUp,
+  SIGNIN: signIn,
+}
+
+const openNotification = (title, msg) => {
+  notification.error({
+    message: title,
+    description: msg,
+    duration: 0,
+    key: KEY,
+  })
+}
+
+function Password({ type, onSuccess, initialValues, setIsSubmitting }: Props) {
   const [form] = Form.useForm()
 
-  const onFinish = (values) => {
-    onSubmit(values)
-  }
+  useEffect(() => {
+    return () => {
+      notification.destroy(KEY)
+    }
+  }, [])
+
+  useEffect(() => form.resetFields(), [form, initialValues])
 
   const onFinishFailed = (errorInfo) => {
     console.error("Failed:", errorInfo)
   }
 
-  useEffect(() => form.resetFields(), [form, initialValues])
+  const onFinish = async (values) => {
+    try {
+      notification.destroy(KEY)
+      setIsSubmitting(true)
+      // @ts-ignore
+      const { user } = await ACTIONS[type](values)
+      console.log(user)
+      onSuccess(user)
+    } catch (err) {
+      // @ts-ignore
+      openNotification(NOTIFICATIONS[type], err.message)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <Form
@@ -39,19 +79,13 @@ function SessionForm({ type, onSubmit, initialValues }: TProps) {
       onFinishFailed={onFinishFailed}
       form={form}
     >
-      <Form.Item label="Username" name="username" rules={[{ required: true }]}>
+      <Form.Item
+        label="Email"
+        name="email"
+        rules={[{ required: true }, { type: "email" }]}
+      >
         <Input />
       </Form.Item>
-      {type === SIGNUP && (
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[{ required: true }, { type: "email" }]}
-        >
-          <Input />
-        </Form.Item>
-      )}
-
       <Form.Item label="Password" name="password" rules={[{ required: true }]}>
         <Input.Password />
       </Form.Item>
@@ -93,4 +127,4 @@ function SessionForm({ type, onSubmit, initialValues }: TProps) {
   )
 }
 
-export default SessionForm
+export default Password

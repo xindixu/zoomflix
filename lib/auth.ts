@@ -1,41 +1,78 @@
-import { apiFetch } from "./api-fetch"
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  signOut as signOutFirebase,
+  GoogleAuthProvider,
+} from "firebase/auth"
 
-export const CLIENT_ID =
-  "763700428974-p8k77625c1vf43vm68260hoqouoocaef.apps.googleusercontent.com"
+import { auth } from "./firebase"
 
-export const SCOPE = "https://www.googleapis.com/auth/userinfo.profile "
-
-export function signUp({ email, username, password }) {
-  return apiFetch({
-    method: "post",
-    data: {
-      email,
-      username,
-      password,
-    },
-    url: "/user/sign-up",
-  }).then((resp) => ({
-    user: resp.data.data,
-  }))
+export const signIn = async ({ email, password }) => {
+  try {
+    const user = await signInWithEmailAndPassword(auth, email, password)
+    return user
+  } catch (error: any) {
+    const errorCode = error.code
+    const errorMessage = error.message
+    if (errorCode === "auth/wrong-password") {
+      alert("Wrong password.")
+    } else {
+      alert(errorMessage)
+    }
+    console.log(error)
+  }
 }
 
-export function signIn({ username, password }) {
-  return apiFetch({
-    method: "post",
-    data: {
-      username,
-      password,
-    },
-    url: "/user/sign-in",
-  }).then((resp) => ({
-    user: resp.data.data,
-  }))
+export const signUp = async ({ email, password }) => {
+  try {
+    const user = await createUserWithEmailAndPassword(auth, email, password)
+    return user
+  } catch (error: any) {
+    const errorCode = error.code
+    const errorMessage = error.message
+    alert(errorMessage)
+    console.log(error)
+  }
 }
 
-export async function signOut() {
-  return () => {}
+const provider = new GoogleAuthProvider()
+
+export const signInWithGoogle = async () => {
+  const result = await signInWithPopup(auth, provider)
+  console.log(result)
+  try {
+    const user = result.user
+    return user
+  } catch (error: any) {
+    const errorCode = error.code
+    const errorMessage = error.message
+    alert(errorMessage)
+    console.log(error)
+  }
 }
 
-export async function getCurrentUser() {
-  return () => {}
-}
+export const signOut = () => signOutFirebase(auth)
+// export const sendPasswordReset = ({ email }) => {
+//   sendPasswordResetEmail(email)
+//     .then(function () {
+//       // Password Reset Email Sent!
+//       alert("Password Reset Email Sent!")
+//     })
+//     .catch(function (error) {
+//       // Handle Errors here.
+//       const errorCode = error.code
+//       const errorMessage = error.message
+//       if (errorCode == "auth/invalid-email") {
+//         alert(errorMessage)
+//       } else if (errorCode == "auth/user-not-found") {
+//         alert(errorMessage)
+//       }
+//       console.log(error)
+//     })
+// }
+
+// export const sendEmailVerification = () =>
+//   currentUser.sendEmailVerification().then(function () {
+//     alert("Email Verification Sent!")
+//   })
