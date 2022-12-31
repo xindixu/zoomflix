@@ -49,5 +49,4 @@ const Meeting = () => {
   )
 }
 
-// export default withProtectedRoute(Meeting)
-export default Meeting
+export default withProtectedRoute(Meeting)

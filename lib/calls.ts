@@ -7,7 +7,7 @@ import {
   updateDoc,
   getDoc,
 } from "firebase/firestore"
-import { db } from "../lib/firebase"
+import { db } from "./firebase"
 
 export const createCall = async ({ id, peerConnection }) => {
   const callsRef = doc(db, `/calls/${id}`)

@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react"
-import { Form, Button, Select } from "antd"
+import { Form, Button, Select, FormInstance } from "antd"
 
 import { listUsers } from "../../lib/api"
-import { TUser } from "../../types/user"
+import { TForm } from "../../pages/meetings/new"
+import { TUser } from "../../context/auth"
 
 type TProps = {
   onSubmit: (value: any) => void
   initialValues?: {
     participants: number[]
   }
+  form: FormInstance<TForm>
 }
 
-const UserForm = ({ initialValues, onSubmit }: TProps) => {
-  const [form] = Form.useForm()
+const UserForm = ({ form, initialValues, onSubmit }: TProps) => {
   const [users, setUsers] = useState<TUser[]>([])
 
   const onFinish = (values) => {

@@ -1,6 +1,6 @@
 import { Button, Col, Row } from "antd"
 import React, { useCallback, useRef, useState } from "react"
-import { answerCall, createCall } from "../../lib/rtc"
+import { answerCall, createCall } from "../../lib/calls"
 
 const servers = {
   iceServers: [

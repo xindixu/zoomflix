@@ -12,7 +12,7 @@ type Props = {
 const Google = ({ onSuccess, type, setIsSubmitting }: Props) => {
   const onClick = useCallback(async () => {
     setIsSubmitting(true)
-    const user = await signInWithGoogle()
+    const { user } = await signInWithGoogle()
     onSuccess(user)
     setIsSubmitting(false)
   }, [onSuccess, setIsSubmitting])

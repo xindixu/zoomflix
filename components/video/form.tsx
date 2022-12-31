@@ -1,43 +1,19 @@
-import React, { useEffect } from "react"
-import { Form, Input, Button, Space } from "antd"
+import React from "react"
+import { Form, Input, Button } from "antd"
 
 type TProps = {
-  onSubmit: (value: any) => void
-  initialValues?: {
-    name: string
-    url: string
-  }
+  next: () => void
 }
 
-const VideoForm = ({ initialValues, onSubmit }: TProps) => {
-  const [form] = Form.useForm()
-
-  const onFinish = (values) => {
-    onSubmit(values)
-  }
-
-  const onFinishFailed = (errorInfo) => {
-    console.error("Failed:", errorInfo)
-  }
-
-  useEffect(() => form.resetFields(), [form, initialValues])
-
+const VideoForm = ({ next }: TProps) => {
   return (
-    <Form
-      name="video"
-      labelCol={{ span: 4 }}
-      wrapperCol={{ span: 16 }}
-      initialValues={initialValues}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      form={form}
-    >
-      <Form.Item label="Name" name="name" rules={[{ required: true }]}>
+    <>
+      <Form.Item label="Name" name="videoName" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
       <Form.Item
         label="URL"
-        name="url"
+        name="videoUrl"
         rules={[{ required: true }, { type: "url" }]}
       >
         <Input />
@@ -48,11 +24,11 @@ const VideoForm = ({ initialValues, onSubmit }: TProps) => {
           span: 16,
         }}
       >
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" onClick={next}>
           Create Video
         </Button>
       </Form.Item>
-    </Form>
+    </>
   )
 }
 

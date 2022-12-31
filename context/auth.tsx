@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import * as jose from "jose"
 
-type TUser = {
-  uid: number
+export type TUser = {
+  uid: string
   email: string
 }
 
