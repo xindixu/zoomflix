@@ -36,7 +36,7 @@ const MeetingForm = ({ onSubmit, hostId, initialValues }: TProps) => {
         setUsers(
           data
             ?.filter((d) => d.uid != hostId)
-            ?.map((d) => ({ value: d.uid, label: d.email }))
+            ?.map((d) => ({ value: d.uid, label: `${d.name} (${d.email})` }))
         )
       )
     } catch (e) {

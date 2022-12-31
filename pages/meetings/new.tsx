@@ -6,7 +6,7 @@ import { useRouter } from "next/router"
 import withProtectedRoute from "../../components/protected-routes"
 
 import MeetingForm from "../../components/meeting/form"
-import { createMeeting } from "../../lib/meetings"
+import { createMeeting, sendInvites } from "../../lib/meetings"
 
 const { Title } = Typography
 
@@ -18,6 +18,7 @@ const Meetings = () => {
 
   const onSubmit = async (value) => {
     const meeting = await createMeeting(value)
+    await sendInvites({ id: meeting.id, ...value })
     router.push(`/meetings/${meeting.id}`)
   }
 
