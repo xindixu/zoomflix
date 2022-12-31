@@ -17,11 +17,11 @@ const NOTIFICATIONS = {
 const PROMPTS = {
   SIGNUP: {
     title: "Sign up",
-    text: "Sign up to fully enjoy exciting features offered by Zoomflex",
+    text: "Sign up to fully enjoy exciting features offered by Zoomflix",
   },
   SIGNIN: {
     title: "Sign in",
-    text: "Sign in to enjoy all features offered by Zoomflex",
+    text: "Sign in to enjoy all features offered by Zoomflix",
   },
 }
 

@@ -63,7 +63,7 @@ function SessionForm({ type, onSubmit, initialValues }: TProps) {
       >
         {type === SIGNIN ? (
           <Text type="secondary">
-            New to Zoomflex? Please{" "}
+            New to Zoomflix? Please{" "}
             <NextLink href="/sign-up" passHref>
               <Link>{BUTTON_TEXT[SIGNUP]}</Link>
             </NextLink>
@@ -71,7 +71,7 @@ function SessionForm({ type, onSubmit, initialValues }: TProps) {
           </Text>
         ) : (
           <Text type="secondary">
-            Already a Zoomflex user? Please{" "}
+            Already a Zoomflix user? Please{" "}
             <NextLink href="/sign-in" passHref>
               <Link>{BUTTON_TEXT[SIGNIN]}</Link>
             </NextLink>

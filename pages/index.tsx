@@ -4,7 +4,7 @@ import { API_ENDPOINT } from "../lib/api-fetch"
 const Home: NextPage = () => {
   return (
     <>
-      Zoomflex Home Page
+      Zoomflix Home Page
       <div>Backend url: {API_ENDPOINT}</div>
     </>
   )

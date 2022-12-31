@@ -23,7 +23,7 @@ function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Head>Zoomflex</Head>
+      <Head>Zoomflix</Head>
       <AuthContextProvider>
         <Layout className="layout" style={{ height: "100vh" }}>
           <Header>

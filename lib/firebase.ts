@@ -8,13 +8,13 @@ import "firebase/firestore"
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDfYdg3e71-5N4veGjsHW_5W63uP-zB-_M",
-  authDomain: "zoomflex-f90a2.firebaseapp.com",
-  projectId: "zoomflex-f90a2",
-  storageBucket: "zoomflex-f90a2.appspot.com",
-  messagingSenderId: "963589976507",
-  appId: "1:963589976507:web:04ff4435762089561d949e",
-  measurementId: "G-B78PBYN65B",
+  apiKey: "AIzaSyD3xtdsrDPz7Xf3prqPU1Ng9g8f1-GM8RA",
+  authDomain: "zoomflix-7aa9a.firebaseapp.com",
+  projectId: "zoomflix-7aa9a",
+  storageBucket: "zoomflix-7aa9a.appspot.com",
+  messagingSenderId: "762981240503",
+  appId: "1:762981240503:web:8bd69e6e3ab1f859598732",
+  measurementId: "G-8DWVS4HYZ9",
 }
 
 // Initialize Firebase
