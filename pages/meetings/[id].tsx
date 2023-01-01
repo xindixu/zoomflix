@@ -65,7 +65,7 @@ const Meeting = () => {
   return (
     <div>
       {id && uid && hostId && <Call id={id} isHost={hostId === uid} />}
-      {url && <Video url={url} />}
+      {url && <Video url={url} id={id} />}
     </div>
   )
 }
