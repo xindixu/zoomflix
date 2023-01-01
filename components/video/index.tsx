@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useRef, useState } from "react"
 import videojs, { VideoJsPlayer } from "video.js"
 import "video.js/dist/video-js.css"
 import "videojs-youtube/dist/Youtube.min.js"
-import useSyncVideos from "../../hooks/use-sync-videos"
 import { updateVideo } from "../../lib/videos"
 
 import { doc, onSnapshot } from "firebase/firestore"
