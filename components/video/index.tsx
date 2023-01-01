@@ -3,9 +3,9 @@ import React, { useCallback, useEffect, useRef, useState } from "react"
 import videojs, { VideoJsPlayer } from "video.js"
 import "video.js/dist/video-js.css"
 import "videojs-youtube/dist/Youtube.min.js"
+import { doc, onSnapshot } from "firebase/firestore"
 import { updateVideo } from "../../lib/videos"
 
-import { doc, onSnapshot } from "firebase/firestore"
 import { db } from "../../lib/firebase"
 
 type Props = {
@@ -69,8 +69,6 @@ const Video = ({ id, url }: Props) => {
       }
 
       await updateVideo(id, video)
-
-      console.log("write to db")
     },
     [shouldSkip]
   )
@@ -96,11 +94,11 @@ const Video = ({ id, url }: Props) => {
     }
 
     const onTimeUpdate = () => {
-      // console.log("onTimeUpdate", player.currentTime())
+      // console.info("onTimeUpdate", player.currentTime())
     }
 
     const onSeeked = () => {
-      console.log("onSeeked", player.currentTime())
+      console.info("onSeeked", player.currentTime())
       sync({
         paused: false,
         currentTime: player.currentTime(),
@@ -108,7 +106,7 @@ const Video = ({ id, url }: Props) => {
     }
 
     const onPause = () => {
-      console.log("onPause")
+      console.info("onPause")
       sync({
         paused: true,
         currentTime: player.currentTime(),
@@ -116,7 +114,7 @@ const Video = ({ id, url }: Props) => {
     }
 
     const onPlay = () => {
-      console.log("onPlay")
+      console.info("onPlay")
       sync({
         paused: false,
         currentTime: player.currentTime(),

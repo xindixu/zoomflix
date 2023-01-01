@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from "react"
 import NextLink from "next/link"
-import { Form, Input, Button, Typography, notification } from "antd"
-import { SIGNIN, SIGNUP, BUTTON_TEXT } from "./index"
+import { Button, Form, Input, Typography, notification } from "antd"
+import { BUTTON_TEXT, SIGNIN, SIGNUP } from "./index"
 
 const { Text, Link } = Typography
-import { signUp, signIn } from "../../lib/auth"
+import { signIn, signUp } from "../../lib/auth"
 
 type Props = {
   type: typeof SIGNIN | typeof SIGNUP
@@ -42,11 +42,12 @@ const openNotification = (title, msg) => {
 function Password({ type, onSuccess, initialValues, setIsSubmitting }: Props) {
   const [form] = Form.useForm()
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       notification.destroy(KEY)
-    }
-  }, [])
+    },
+    []
+  )
 
   useEffect(() => form.resetFields(), [form, initialValues])
 

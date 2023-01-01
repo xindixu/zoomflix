@@ -16,6 +16,6 @@
     "incremental": true,
     "noImplicitAny": false
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "lib/videoform.jsx"],
+  "include": ["next-env.d.ts", "environments.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }

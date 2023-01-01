@@ -2,11 +2,11 @@ import {
   addDoc,
   collection,
   doc,
-  getDocs,
+  documentId,
   getDoc,
+  getDocs,
   query,
   where,
-  documentId,
 } from "firebase/firestore"
 import emailjs from "@emailjs/browser"
 import { db } from "./firebase"
@@ -25,8 +25,8 @@ export const sendInvites = async ({
   const participants: TRecipient[] = []
 
   const querySnapshot = await getDocs(q)
-  querySnapshot.forEach((doc) => {
-    const data = doc.data() as TRecipient
+  querySnapshot.forEach((d) => {
+    const data = d.data() as TRecipient
     participants.push(data)
   })
 
@@ -35,7 +35,7 @@ export const sendInvites = async ({
 
   const requests = participants.map((participant) => {
     // send email to participant
-    const template_params = {
+    const templateParams = {
       from_email: host.email,
       from_name: host.name,
       to_email: participant.email,
@@ -43,11 +43,12 @@ export const sendInvites = async ({
       url: `${window.location.origin}/meetings/${id}`,
       video_name: videoName,
     }
+
     return emailjs.send(
       "default_service",
-      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-      template_params,
-      process.env.NEXT_PUBLIC_EMAILJS_KEY
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "",
+      templateParams,
+      process.env.NEXT_PUBLIC_EMAILJS_KEY || ""
     )
   })
 
@@ -77,7 +78,6 @@ export const getMeeting = async (id: string) => {
 
   if (meeting.exists()) {
     return meeting.data()
-  } else {
-    return null
   }
+  return null
 }

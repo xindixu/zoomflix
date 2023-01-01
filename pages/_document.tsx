@@ -12,11 +12,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head />
-        <script
-          src="https://accounts.google.com/gsi/client"
-          async
-          defer
-        ></script>
+        <script src="https://accounts.google.com/gsi/client" async defer />
         <body>
           <Main />
           <NextScript />

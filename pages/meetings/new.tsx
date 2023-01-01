@@ -1,8 +1,8 @@
 import React, { useContext } from "react"
 import { Typography } from "antd"
 
-import AuthContext from "../../context/auth"
 import { useRouter } from "next/router"
+import AuthContext from "../../context/auth"
 import withProtectedRoute from "../../components/protected-routes"
 
 import MeetingForm from "../../components/meeting/form"

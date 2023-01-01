@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 
-import AuthContext from "../../context/auth"
 import { useRouter } from "next/router"
+import AuthContext from "../../context/auth"
 import withProtectedRoute from "../../components/protected-routes"
 import { getMeeting } from "../../lib/meetings"
 
@@ -15,7 +15,7 @@ const Meeting = () => {
   const { query } = router
   const { id } = query
 
-  const { uid } = currentUser
+  const { uid } = currentUser || {}
   const [url, setUrl] = useState("")
   const [hostId, setHostId] = useState("")
 
@@ -64,8 +64,10 @@ const Meeting = () => {
 
   return (
     <div>
-      {id && uid && hostId && <Call id={id} isHost={hostId === uid} />}
-      {url && <Video url={url} id={id} />}
+      {id && !Array.isArray(id) && uid && (
+        <Call id={id} isHost={hostId === uid} />
+      )}
+      {id && !Array.isArray(id) && url && <Video url={url} id={id} />}
     </div>
   )
 }

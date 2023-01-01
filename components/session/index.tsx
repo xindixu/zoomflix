@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Divider, Spin, Typography, Col, Row } from "antd"
+import { Col, Divider, Row, Spin, Typography } from "antd"
 
 import PasswordForm from "./password"
 import GoogleForm from "./google"

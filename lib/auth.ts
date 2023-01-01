@@ -1,9 +1,9 @@
 import {
-  signInWithEmailAndPassword,
+  GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   signInWithPopup,
   signOut as signOutFirebase,
-  GoogleAuthProvider,
 } from "firebase/auth"
 
 import { auth } from "./firebase"
@@ -35,7 +35,6 @@ export const signUp = async ({ name, email, password }) => {
     await createUser(user)
     return user
   } catch (error: any) {
-    const errorCode = error.code
     const errorMessage = error.message
     alert(errorMessage)
     console.error(error)
@@ -56,7 +55,6 @@ export const signInWithGoogle = async () => {
     await createUser(user)
     return user
   } catch (error: any) {
-    const errorCode = error.code
     const errorMessage = error.message
     alert(errorMessage)
     console.error(error)
@@ -64,6 +62,7 @@ export const signInWithGoogle = async () => {
 }
 
 export const signOut = () => signOutFirebase(auth)
+
 // export const sendPasswordReset = ({ email }) => {
 //   sendPasswordResetEmail(email)
 //     .then(function () {
@@ -72,8 +71,7 @@ export const signOut = () => signOutFirebase(auth)
 //     })
 //     .catch(function (error) {
 //       // Handle Errors here.
-//       const errorCode = error.code
-//       const errorMessage = error.message
+//   //       const errorMessage = error.message
 //       if (errorCode == "auth/invalid-email") {
 //         alert(errorMessage)
 //       } else if (errorCode == "auth/user-not-found") {

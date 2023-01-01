@@ -3,11 +3,11 @@ import Head from "next/head"
 import "../styles/globals.css"
 import "antd/dist/reset.css"
 
-import { AuthContextProvider } from "../context/auth"
 import { Layout, message } from "antd"
-import Nav from "../components/nav"
 import { useEffect } from "react"
 import { useRouter } from "next/router"
+import Nav from "../components/nav"
+import { AuthContextProvider } from "../context/auth"
 
 const { Header, Content } = Layout
 

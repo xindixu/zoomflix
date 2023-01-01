@@ -1,7 +1,7 @@
 import { Button } from "antd"
 import React, { useCallback } from "react"
-import { BUTTON_TEXT, SIGNIN, SIGNUP } from "./index"
 import { signInWithGoogle } from "../../lib/auth"
+import { BUTTON_TEXT, SIGNIN, SIGNUP } from "./index"
 
 type Props = {
   type: typeof SIGNIN | typeof SIGNUP

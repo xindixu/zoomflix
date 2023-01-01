@@ -2,10 +2,10 @@ import {
   addDoc,
   collection,
   doc,
-  setDoc,
-  onSnapshot,
-  updateDoc,
   getDoc,
+  onSnapshot,
+  setDoc,
+  updateDoc,
 } from "firebase/firestore"
 import { db } from "./firebase"
 

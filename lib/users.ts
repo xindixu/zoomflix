@@ -7,8 +7,8 @@ import {
   query,
   setDoc,
 } from "firebase/firestore"
-import { db } from "./firebase"
 import { TUser } from "../context/auth"
+import { db } from "./firebase"
 
 export const createUser = async ({ uid, email, name }) => {
   const userRef = doc(db, `users/${uid}`)
@@ -20,9 +20,8 @@ export const getUser = async (uid: string) => {
   const docSnap = await getDoc(userRef)
   if (docSnap.exists()) {
     return { uid, ...docSnap.data() } as TUser
-  } else {
-    return null
   }
+  return null
 }
 
 export const listUsers = async () => {

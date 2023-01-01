@@ -52,9 +52,7 @@ export function sendInvites({ roomId, participants }) {
     })
 
   if (!participants || participants.length === 0) return Promise.resolve()
-  return Promise.all(participants?.map(sendInvite)).then((resp) => {
-    console.log(resp)
-  })
+  return Promise.all(participants?.map(sendInvite))
 }
 
 export function addParticipants({ roomId, participants }) {
@@ -69,9 +67,7 @@ export function addParticipants({ roomId, participants }) {
 
   if (!participants || participants.length === 0) return Promise.resolve()
 
-  return Promise.all(participants?.map(addUserToRoom)).then((resp) => {
-    console.log(resp)
-  })
+  return Promise.all(participants?.map(addUserToRoom))
 }
 
 export function listUsers() {

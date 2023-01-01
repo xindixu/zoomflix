@@ -1,7 +1,6 @@
 import React, { useContext } from "react"
 import { useRouter } from "next/router"
-import Session from "../components/session"
-import { SIGNUP } from "../components/session"
+import Session, { SIGNUP } from "../components/session"
 import AuthContext from "../context/auth"
 
 function SignUp() {

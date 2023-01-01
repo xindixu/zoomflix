@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react"
 import { useRouter } from "next/router"
-import Session from "../components/session"
-import { SIGNIN } from "../components/session"
+import Session, { SIGNIN } from "../components/session"
 import AuthContext from "../context/auth"
 
 function SignIn() {

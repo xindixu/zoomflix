@@ -1,3 +1,4 @@
+// eslint-disable-file jsx-a11y/media-has-caption
 import { Button, Col, Row } from "antd"
 import React, { useCallback, useRef, useState } from "react"
 import { answerCall, createCall } from "../../lib/calls"
@@ -15,7 +16,12 @@ const START_WEBCAM = "START_WEBCAM"
 const START_CALL = "START_CALL"
 const JOINED_CALL = "JOINED_CALL"
 
-const Call = ({ id, isHost }) => {
+type TProps = {
+  id: string
+  isHost: boolean
+}
+
+const Call = ({ id, isHost }: TProps) => {
   const peerConnection = useRef(new RTCPeerConnection(servers))
   const localStream = useRef<MediaStream | null>(null)
   const remoteStream = useRef<MediaStream | null>(null)
