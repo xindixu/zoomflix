@@ -63,22 +63,18 @@ const Video = ({ id, url }: Props) => {
     }
   }, [playerRef])
 
-  const sync = useCallback(async () => {
-    const player = playerRef.current
-    if (!player) {
-      return
-    }
-    if (shouldSkip) {
-      return
-    }
+  const sync = useCallback(
+    async (video) => {
+      if (shouldSkip) {
+        return
+      }
 
-    await updateVideo(id, {
-      paused: player.paused(),
-      currentTime: player.currentTime(),
-    })
+      await updateVideo(id, video)
 
-    console.log("write to db")
-  }, [shouldSkip])
+      console.log("write to db")
+    },
+    [shouldSkip]
+  )
 
   useEffect(() => {
     if (!shouldSkip) {
@@ -106,17 +102,26 @@ const Video = ({ id, url }: Props) => {
 
     const onSeeked = () => {
       console.log("onSeeked", player.currentTime())
-      sync()
+      sync({
+        paused: false,
+        currentTime: player.currentTime(),
+      })
     }
 
     const onPause = () => {
       console.log("onPause")
-      sync()
+      sync({
+        paused: true,
+        currentTime: player.currentTime(),
+      })
     }
 
     const onPlay = () => {
       console.log("onPlay")
-      sync()
+      sync({
+        paused: false,
+        currentTime: player.currentTime(),
+      })
     }
 
     player.on("timeupdate", onTimeUpdate)
