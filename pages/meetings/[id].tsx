@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
 import dynamic from "next/dynamic"
-
 import { useRouter } from "next/router"
 import AuthContext from "../../context/auth"
 import withProtectedRoute from "../../components/protected-routes"
@@ -10,11 +9,11 @@ const Call = dynamic(() => import("../../components/call"), { ssr: false })
 const Video = dynamic(() => import("../../components/video"), { ssr: false })
 
 const Meeting = () => {
-  const { currentUser } = useContext(AuthContext)
   const router = useRouter()
   const { query } = router
   const { id } = query
 
+  const { currentUser } = useContext(AuthContext)
   const { uid } = currentUser || {}
   const [url, setUrl] = useState("")
   const [hostId, setHostId] = useState("")

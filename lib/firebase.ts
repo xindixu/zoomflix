@@ -6,7 +6,12 @@ import { getAuth } from "firebase/auth"
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 // Initialize Firebase
-const firebaseConfig = JSON.parse(process.env.NEXT_PUBLIC_FIREBASE_CONFIG || "")
+let firebaseConfig = {}
+try {
+  firebaseConfig = JSON.parse(process.env.NEXT_PUBLIC_FIREBASE_CONFIG || "")
+} catch (error) {
+  console.error(error)
+}
 
 const app = initializeApp(firebaseConfig)
 
